@@ -4,10 +4,18 @@ describe("Posting Model", function(){
   beforeEach(function(){
     model = new PostingModel();
   });
-  it("should contain a selected property", function(){
+  it("should default to not selected", function(){
     expect(model.get('selected')).toBeFalsy();
 
 
+  });
+
+});
+
+describe("Postings Collection", function(){
+  
+  it("should be defined", function(){
+    expect(PostingsList).toBeDefined();
   });
 
 });

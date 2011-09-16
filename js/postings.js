@@ -9,6 +9,8 @@
     }
   });
 
+
+  window.PostingsList = Backbone.Collection.extend({});
   
 
 })(jQuery);
