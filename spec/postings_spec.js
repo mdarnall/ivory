@@ -18,4 +18,23 @@ describe("Postings Collection", function(){
     expect(PostingsList).toBeDefined();
   });
 
+  it("should be able to add models", function(){
+    var list = new PostingsList();
+    list.add(new PostingModel());
+    expect(list.models.length).toBeGreaterThan(0);
+
+  });
+
+});
+
+describe("Postings List View", function(){
+
+  var view;
+  beforeEach(function(){
+    view = new PostingsListView();
+  });
+
+  it("should create a root element", function(){
+    expect(view.el.nodeName).toEqual("LI");
+  });
 });

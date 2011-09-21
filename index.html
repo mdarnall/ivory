@@ -1,0 +1,59 @@
+<!doctype html>
+
+<!--[if lt IE 7]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+
+    <title>Postings</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"> </script>
+    <script src="../node_modules/backbone/node_modules/underscore/underscore.js"></script>
+    <script src="../node_modules/backbone/backbone.js"></script>
+
+    <script type="text/template" id="posting_template">
+      <input type="checkbox" id="<%= id %>" />
+      <span><%= name %></span>
+    </script>
+
+  </head>
+  <body>
+
+    <h3> My Postings </h3>
+    <ul class="postings">
+      
+    </ul>
+    
+    <script src="js/postings.js"></script>
+
+
+    <script>
+      $(function(){
+        // init
+
+        var localPosts = [
+        { 
+          name : "posting 1", 
+          id : 1  
+        }, 
+        {
+          name : "posting 2", 
+          id : 2
+        }, 
+        {
+          name : "posting 3", 
+          id : 3
+        }];
+
+        window.App = new PostingsListView;
+        postingsList.reset(localPosts);
+
+      });
+    </script>
+
+  </body>
+</html>
+
