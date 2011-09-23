@@ -15,7 +15,7 @@
     <script src="../node_modules/backbone/backbone.js"></script>
 
     <script type="text/template" id="posting_template">
-      <input type="checkbox" id="<%= id %>" />
+       <input class="check" type="checkbox" <%= selected ? 'checked="checked"' : '' %> />
       <span><%= name %></span>
     </script>
 
@@ -48,8 +48,13 @@
           id : 3
         }];
 
-        window.App = new PostingsListView;
-        postingsList.reset(localPosts);
+        var postings = new PostingsList(localPosts);
+        window.mainView = new PostingsListView( { 
+          el : $("ul.postings"),
+          model : postings, 
+          itemTemplate : $("#posting_template") 
+        });
+        
 
       });
     </script>

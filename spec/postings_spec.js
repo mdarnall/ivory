@@ -10,6 +10,13 @@ describe("Posting Model", function(){
 
   });
 
+  it("should toggle selected", function(){
+    model.toggleSelect();
+    expect(model.get("selected")).toBeTruthy();
+    model.toggleSelect();
+    expect(model.get("selected")).toBeFalsy();
+  });
+
 });
 
 describe("Postings Collection", function(){
@@ -27,14 +34,25 @@ describe("Postings Collection", function(){
 
 });
 
-describe("Postings List View", function(){
+describe("PostingsListView",function(){
+  var testCollection = [
+    { id : "1", name : "posting 1"}, 
+    { id : "2", name :"posting 2"}
+  ];
 
-  var view;
+  var list;
   beforeEach(function(){
-    view = new PostingsListView();
+    setFixtures('<script type="text/template" id="template"><h3><%=name%></h3></script>');
+    list = new PostingsList(testCollection) 
   });
 
-  it("should create a root element", function(){
-    expect(view.el.nodeName).toEqual("LI");
+  it("can be initialized with a model", function(){
+      var view = new PostingsListView({ model : list });
+      expect(view.model).not.toBeEmpty();
+  });
+  it("default template renders h3s", function(){
+    var view = new PostingsListView({ model : list});
+    expect($(view.el)).toContain("h3")
+
   });
 });
