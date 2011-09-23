@@ -41,7 +41,7 @@
       this.model.bind('change', this.render, this);
       this.model.bind('destroy', this.remove, this);
       // todo: this just assumes a jquery obj for the template text
-      this.template = _.template('<h3><%=name%></h3>');
+      this.template = _.template(this.options.template || '<h3><%=name%></h3>');
     },
 
     render : function(){
@@ -81,7 +81,7 @@
     * add a PostingView for each posting
     */
     addOne : function(posting){
-      var view = new PostingView({model : posting });
+      var view = new PostingView({model : posting, template : this.options.itemTemplate });
       $(this.el).append(view.render().el);
     }
     

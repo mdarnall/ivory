@@ -42,7 +42,6 @@ describe("PostingsListView",function(){
 
   var list;
   beforeEach(function(){
-    setFixtures('<script type="text/template" id="template"><h3><%=name%></h3></script>');
     list = new PostingsList(testCollection) 
   });
 
@@ -50,9 +49,19 @@ describe("PostingsListView",function(){
       var view = new PostingsListView({ model : list });
       expect(view.model).not.toBeEmpty();
   });
-  it("default template renders h3s", function(){
-    var view = new PostingsListView({ model : list});
-    expect($(view.el)).toContain("h3")
+  describe("templating", function(){
+    it("default template renders h3s", function(){
+      var view = new PostingsListView({ model : list});
+      expect($(view.el)).toContain("h3")
+    });
+
+    it('takes a template option', function(){
+      setFixtures('<script type="text/template" id="template"><span><%= name %></span></script>');
+      var view = new PostingsListView({model : list, itemTemplate : $("#template").html() });
+      var spans = $(view.el).find("span");
+      expect(spans.length).toEqual(2);
+    });
+
 
   });
 });
