@@ -21,13 +21,10 @@
 
   </head>
   <body>
-
-    <h3> My Postings </h3>
-    <ul class="postings">
-      
-    </ul>
+    <div class="Postings">
     
-    <script src="js/postings.js"></script>
+    </div>
+   <script src="js/postings.js"></script>
 
 
     <script>
@@ -49,8 +46,8 @@
         }];
 
         var postings = new PostingsList(localPosts);
-        window.mainView = new PostingsListView( { 
-          el : $("ul.postings"),
+        window.app = new App({
+          
           model : postings, 
           itemTemplate : $("#posting_template").html()
         });

@@ -19,11 +19,23 @@
   */
   window.PostingsList = Backbone.Collection.extend({
     model : PostingModel,
+    url : "/assets", 
 
+    initialize : function (){
+      _.bindAll(this);
+    }, 
     selected : function(){
       return this.filter(function(posting){
-        return posting.selected;
+        return posting.get('selected');
       });
+    }, 
+    selectedIds : function(){
+      return _.pluck(this.selected(), "id");
+    },
+    unpost : function() {
+      var ids = this.selectedIds();
+      
+      $.ajax('/assets/unpost', ids);
     }
   });
  
@@ -45,6 +57,7 @@
     },
 
     render : function(){
+      // console.log('render');
       $(this.el).html(this.template(this.model.toJSON()));
       return this;
     }, 
@@ -63,20 +76,20 @@
   */
   window.PostingsListView = Backbone.View.extend({
     tagName : 'ul', 
+    className : 'postings',
 
     initialize : function (){
       // all methods are bound to 'this'
       _.bindAll(this);
-      this.model.bind("reset", this.addAll, this);
-      if(this.model.length > 0) { 
-        this.addAll();
-      }
+      this.model.bind("reset", this.render, this);
     },
+    
 
-    addAll : function(){
+    render : function(){
       this.model.each(this.addOne);
+      return this;
     },
-
+    
     /*
     * add a PostingView for each posting
     */
@@ -84,6 +97,36 @@
       var view = new PostingView({model : posting, template : this.options.itemTemplate });
       $(this.el).append(view.render().el);
     }
+    
+  });
+  
+  /*
+ * The main app view
+ */
+  window.App = Backbone.View.extend({
+    className : "app",
+    events : {
+     "click .unpost" : "unpost"
+
+    },
+
+    initialize : function (){
+      _.bindAll(this);
+      this.render();
+    }, 
+
+    unpost : function(){
+      this.model.unpost();
+    },
+    render : function (){
+      var view = new PostingsListView({model : this.options.model, itemTemplate: this.options.itemTemplate});
+      $(this.el).append(view.render().el).append('<button class="unpost">unpost</button>');
+      
+      $(document.body).append(this.el);
+
+    }
+    
+    
     
   });
 
