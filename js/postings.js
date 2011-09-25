@@ -35,7 +35,21 @@
     unpost : function() {
       var ids = this.selectedIds();
       
-      $.ajax('/assets/unpost', ids);
+      $.post('/assets/unpost', ids, this.onUnpost);
+    }, 
+
+    /*
+    * on an unpost loop over the response and set
+    * status on the model
+    */
+    onUnpost : function(data, txtStatus, xhr) { 
+      if(data && data.postings){ 
+        // var selected = this.selected();
+        _.each(data.postings, function(posting){
+          var model = this.get(posting.id);
+          model.set({"status" : posting.status});
+        }, this);
+      }
     }
   });
  

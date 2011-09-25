@@ -63,15 +63,41 @@ describe("PostingsList", function(){
       expect(list.unpost).toBeDefined();
     });
 
-    it("should call post to url with selected ids", function(){
-      jasmine.Ajax.useMock();
-      
-      list.unpost();
+    describe("it's successful communication with the server", function(){
+      beforeEach(function(){
+        jasmine.Ajax.useMock();
+      });
 
-      var request = mostRecentAjaxRequest();
-      var url = list.url + "/unpost";
-      expect(request.url).toEqual(url);
-      
+      it("should call post to url with selected ids", function(){
+        
+        list.unpost();
+
+        var request = mostRecentAjaxRequest();
+        var url = list.url + "/unpost";
+        expect(request.url).toEqual(url);
+        
+      });
+      it("a successful post should invoke callback", function(){
+        var successSpy = spyOn(list, "onUnpost");
+
+        list.unpost();
+        var request = mostRecentAjaxRequest();
+        request.response(testResponses.unpost.success);
+
+        expect(successSpy).toHaveBeenCalled();
+      });
+      it("should publish a change event on a successful unpost", function(){
+        var callback = jasmine.createSpy();
+        list.bind("change", callback);
+
+        list.unpost();
+        
+        var request = mostRecentAjaxRequest();
+        request.response(testResponses.unpost.success);
+
+
+        expect(callback).toHaveBeenCalled();
+      });
     });
   });
 
